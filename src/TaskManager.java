@@ -35,14 +35,12 @@ public class TaskManager {
 
     ArrayList<String> getAllEpicsSTs(Epic epic) {
         ArrayList<String> epicsStatuses = new ArrayList<>();
-        //int epicSubsListSize = epicsMap.get(epicId).subTasksIdList.size();
         for (int i = 0; i < epic.subTasksIdList.size(); i++) {
             int subId = epic.subTasksIdList.get(i);
             if (subTaskMap.containsKey(subId)) {
                 epicsStatuses.add(subTaskMap.get(subId).getStatus());
             }
         }
-        //System.out.println(allEpicsSubsStatuses.toString());
         return epicsStatuses;
     }
 
