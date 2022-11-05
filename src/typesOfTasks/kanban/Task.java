@@ -1,16 +1,18 @@
-
+package typesOfTasks.kanban;
 
 public class Task {
     private String title;
     private String description;
-    private int id;
-    private String status;
+    private Integer id;
+    private Status status;
 
-    Task(String newTitle, String newDescription, String newStatus) {
+    public Task(String newTitle, String newDescription, Status newStatus) {
         this.title = newTitle;
         this.description = newDescription;
         this.status = newStatus;
     }
+
+    public enum Status {NEW, IN_PROGRESS, DONE}
 
     public int getId() {
         return id;
@@ -36,12 +38,13 @@ public class Task {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+
+    public void setNewStatus(Status newStatus) {
+        this.status = newStatus;
     }
 
     @Override
@@ -61,4 +64,5 @@ public class Task {
                 ", status='" + status + '\'' +
                 '}';
     }
+
 }

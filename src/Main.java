@@ -1,16 +1,21 @@
+import typesOfTasks.kanban.Epic;
+import typesOfTasks.kanban.SubTask;
+import typesOfTasks.kanban.Task;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Поехали!");
         TaskManager taskManager = new TaskManager();
+
 // ADD
         System.out.println("ADD");
-        Task task1 = new Task("Task1", "Task1 description", "NEW");
-        Task task2 = new Task("Task2", "Task2 description", "IN_PROGRESS");
+        Task task1 = new Task("Task1", "Task1 description", Task.Status.NEW);
+        Task task2 = new Task("Task2", "Task2 description", Task.Status.IN_PROGRESS);
         taskManager.newTask(task1);
         taskManager.newTask(task2);
 
-        Epic epic1 = new Epic("Epic1", "Epic1 description", "NEW");
-        Epic epic2 = new Epic("Epic2", "Epic2 description", "NEW");
+        Epic epic1 = new Epic("Epic1", "Epic1 description", Task.Status.NEW);
+        Epic epic2 = new Epic("Epic2", "Epic2 description", Task.Status.NEW);
         taskManager.newEpic(epic1);
         taskManager.newEpic(epic2);
         System.out.println(taskManager.getAllTasks());
@@ -19,10 +24,10 @@ public class Main {
         int epic1Id = epic1.getId();
         int epic2Id = epic2.getId();
 
-        SubTask subTask1_1 = new SubTask("SubTask1 - 1", "SubTask1-1 description", "NEW", epic1Id);
-        SubTask subTask1_2 = new SubTask("SubTask1 - 2", "SubTask1-2 description", "NEW", epic1Id);
-        SubTask subTask2_1 = new SubTask("SubTask2 - 1", "SubTask2 - 1 description", "NEW", epic2Id);
-        SubTask subTask2_2 = new SubTask("SubTask2 - 2", "SubTask2 - 2 description", "IN_PROGRESS", epic2Id);
+        SubTask subTask1_1 = new SubTask("SubTask1 - 1", "SubTask1-1 description", Task.Status.NEW, epic1Id);
+        SubTask subTask1_2 = new SubTask("SubTask1 - 2", "SubTask1-2 description", Task.Status.NEW, epic1Id);
+        SubTask subTask2_1 = new SubTask("SubTask2 - 1", "SubTask2 - 1 description", Task.Status.NEW, epic2Id);
+        SubTask subTask2_2 = new SubTask("SubTask2 - 2", "SubTask2 - 2 description", Task.Status.IN_PROGRESS, epic2Id);
 
         taskManager.addSubTask(subTask1_1);
         taskManager.addSubTask(subTask1_2);
@@ -37,18 +42,18 @@ public class Main {
 //UPD
         System.out.println("UPD");
         // tasksUPD
-        task1.setStatus("IN_PROGRESS");
-        task2.setStatus("DONE");
+        task1.setNewStatus(Task.Status.IN_PROGRESS);
+        task2.setNewStatus(Task.Status.DONE);
         taskManager.updateTask(task1);
         taskManager.updateTask(task2);
 
-        System.out.println(taskManager.getAllTasks());
+        System.out.println(taskManager.tasksMap);
         //sub + epic UPD
         subTask1_1.setTitle("SubTask1 - 1u");
-        subTask1_1.setStatus("IN_PROGRESS");
-        subTask1_2.setStatus("DONE");
-        subTask2_1.setStatus("DONE");
-        subTask2_2.setStatus("DONE");
+        subTask1_1.setNewStatus(Task.Status.IN_PROGRESS);
+        subTask1_2.setNewStatus(Task.Status.DONE);
+        subTask2_1.setNewStatus(Task.Status.DONE);
+        subTask2_2.setNewStatus(Task.Status.DONE);
 
         taskManager.updateSubTask(subTask1_1);
         taskManager.updateSubTask(subTask1_2);
@@ -56,8 +61,8 @@ public class Main {
         taskManager.updateSubTask(subTask2_2);
 
 
-        System.out.println(taskManager.getAllEpics());
-        System.out.println(taskManager.getAllSubTasks());
+        System.out.println(taskManager.epicsMap);
+        System.out.println(taskManager.subTaskMap);
 
         System.out.println("_________________________________");
 //DeleteByID
@@ -91,8 +96,8 @@ public class Main {
         taskManager.deleteAllEpics();
 
         System.out.println(taskManager.getAllTasks());
-        System.out.println(taskManager.getAllEpics());
         System.out.println(taskManager.getAllSubTasks());
+        System.out.println(taskManager.getAllEpics());
     }
 
 
