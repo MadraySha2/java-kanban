@@ -1,4 +1,4 @@
-package typesOfTasks.kanban;
+package ru.yandex.kanban.model;
 
 public class SubTask extends Task {
     private Integer epicId;
@@ -15,7 +15,11 @@ public class SubTask extends Task {
     @Override
     public String toString() {
         return "SubTask{" +
-                "epicId=" + epicId +
-                "} " + super.toString();
+                "title='" + getTitle() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", id=" + getId() +
+                ", epicId=" + epicId +
+                ", status='" + getStatus() + '\'' +
+                '}';
     }
 }

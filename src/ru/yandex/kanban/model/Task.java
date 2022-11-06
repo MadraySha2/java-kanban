@@ -1,4 +1,4 @@
-package typesOfTasks.kanban;
+package ru.yandex.kanban.model;
 
 public class Task {
     private String title;
@@ -12,7 +12,6 @@ public class Task {
         this.status = newStatus;
     }
 
-    public enum Status {NEW, IN_PROGRESS, DONE}
 
     public int getId() {
         return id;

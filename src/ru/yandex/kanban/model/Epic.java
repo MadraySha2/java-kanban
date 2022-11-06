@@ -1,4 +1,4 @@
-package typesOfTasks.kanban;
+package ru.yandex.kanban.model;
 
 import java.util.ArrayList;
 
@@ -32,9 +32,12 @@ public class Epic extends Task {
     @Override
     public String toString() {
         return "Epic{" +
-                super.toString() +
-                " subTasksIdList=" + subTasksIdList +
-                "} ";
+                "title='" + getTitle() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", id=" + getId() +
+                ", status='" + getStatus() + '\'' +
+                ", SubTaskID's = " + getSubTaskIDs() +
+                '}';
     }
 
 
