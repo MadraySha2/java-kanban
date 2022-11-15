@@ -1,5 +1,7 @@
 package ru.yandex.kanban.main;
 
+import ru.yandex.kanban.kanban_utils.Managers;
+import ru.yandex.kanban.kanban_utils.taskManger.TaskManager;
 import ru.yandex.kanban.model.Epic;
 import ru.yandex.kanban.model.Status;
 import ru.yandex.kanban.model.SubTask;
@@ -9,8 +11,7 @@ import ru.yandex.kanban.model.Task;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Поехали!");
-        TaskManager taskManager = new TaskManager();
-
+        TaskManager taskManager = Managers.getDefault();
 // ADD
         System.out.println("ADD");
         Task task1 = new Task("Task1", "Task1 description", Status.NEW);
@@ -51,7 +52,7 @@ public class Main {
         taskManager.updateTask(task1);
         taskManager.updateTask(task2);
 
-        System.out.println(taskManager.tasksMap);
+        System.out.println(taskManager.getAllTasks());
         //sub + epic UPD
         subTask1_1.setTitle("SubTask1 - 1u");
         subTask1_1.setNewStatus(Status.IN_PROGRESS);
@@ -65,8 +66,8 @@ public class Main {
         taskManager.updateSubTask(subTask2_2);
 
 
-        System.out.println(taskManager.epicsMap);
-        System.out.println(taskManager.subTaskMap);
+        System.out.println(taskManager.getAllEpics());
+        System.out.println(taskManager.getAllSubTasks());
 
         System.out.println("_________________________________");
 //DeleteByID
@@ -84,6 +85,8 @@ public class Main {
 
         System.out.println("_________________________________");
 //GetByID
+        System.out.println("GET EMPTY HISTORY");
+        System.out.println(taskManager.getTasksHistory());
         System.out.println("GetByID");
         //getTaskById
         System.out.println(taskManager.getTaskById(task2.getId()));
@@ -95,6 +98,8 @@ public class Main {
         System.out.println(taskManager.getSubTaskById(subTask2_1.getId()));
 
         System.out.println("_________________________________");
+        System.out.println("GET FULL HISTORY");
+        System.out.println(taskManager.getTasksHistory());
 //DeleteAll
         System.out.println("DELETE ALL");
         taskManager.deleteAllTasks();
@@ -104,6 +109,8 @@ public class Main {
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllSubTasks());
         System.out.println(taskManager.getAllEpics());
+
+
     }
 
 
