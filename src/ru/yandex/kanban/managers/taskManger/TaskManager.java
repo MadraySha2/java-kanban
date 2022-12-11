@@ -1,4 +1,4 @@
-package ru.yandex.kanban.kanban_utils.taskManger;
+package ru.yandex.kanban.managers.taskManger;
 
 import ru.yandex.kanban.model.Epic;
 import ru.yandex.kanban.model.Status;

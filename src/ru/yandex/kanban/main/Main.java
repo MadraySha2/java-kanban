@@ -1,7 +1,7 @@
 package ru.yandex.kanban.main;
 
-import ru.yandex.kanban.kanban_utils.Managers;
-import ru.yandex.kanban.kanban_utils.taskManger.TaskManager;
+import ru.yandex.kanban.managers.Managers;
+import ru.yandex.kanban.managers.taskManger.TaskManager;
 import ru.yandex.kanban.model.Epic;
 import ru.yandex.kanban.model.Status;
 import ru.yandex.kanban.model.SubTask;
@@ -89,13 +89,14 @@ public class Main {
         System.out.println(taskManager.getTasksHistory());
         System.out.println("GetByID");
         //getTaskById
-        System.out.println(taskManager.getTaskById(task2.getId()));
         //getEpicById
+        System.out.println(taskManager.getTaskById(task2.getId()));
         System.out.println(taskManager.getEpicById(epic2.getId()));
         //epicsSubsList
         System.out.println(taskManager.getAllEpicsSubsList(epic2.getId()));
         //getSubTaskById
         System.out.println(taskManager.getSubTaskById(subTask2_1.getId()));
+        System.out.println(taskManager.getTaskById(task2.getId()));
 
         System.out.println("_________________________________");
         System.out.println("GET FULL HISTORY");
@@ -105,12 +106,41 @@ public class Main {
         taskManager.deleteAllTasks();
         taskManager.deleteAllSubTasks();
         taskManager.deleteAllEpics();
-
+        System.out.println(taskManager.getTasksHistory());
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllSubTasks());
         System.out.println(taskManager.getAllEpics());
+        System.out.println(taskManager.getTasksHistory());
+
+// HistoryTest
+        Task task6 = new Task("TaskHis6", "Task6 description", Status.NEW);
+        Task task7 = new Task("TaskHis7", "Task7 description", Status.NEW);
+        Task task8 = new Task("TaskHis8", "Task8 description", Status.NEW);
+        taskManager.addNewTask(task6);
+        taskManager.addNewTask(task7);
+        taskManager.addNewTask(task8);
+        Epic epic10 = new Epic("EpicHis10", "Epic10 description", Status.NEW);
+        Epic epic11 = new Epic("EpicHis11", "Epic11 description", Status.NEW);
+        taskManager.addNewEpic(epic10);
+        taskManager.addNewEpic(epic11);
+        int epic10Id = epic10.getId();
+        SubTask subTask10_1 = new SubTask("SubTask10 - 1", "SubTask10-1 description", Status.NEW, epic10Id);
+        SubTask subTask10_2 = new SubTask("SubTask10 - 2", "SubTask11-2 description", Status.NEW, epic10Id);
+        taskManager.addSubTask(subTask10_1);
+        taskManager.addSubTask(subTask10_2);
 
 
+        System.out.println(taskManager.getTaskById(task8.getId()));
+        System.out.println(taskManager.getTaskById(task6.getId()));
+        System.out.println(taskManager.getTaskById(task7.getId()));
+        System.out.println(taskManager.getEpicById(epic11.getId()));
+        System.out.println(taskManager.getSubTaskById(subTask10_1.getId()));
+        System.out.println(taskManager.getEpicById(epic10.getId()));
+        taskManager.deleteEpic(epic10.getId());
+        System.out.println(taskManager.getSubTaskById(subTask10_2.getId()));
+        System.out.println(taskManager.getTaskById(task8.getId()));
+        System.out.println("____________________________________");
+        System.out.println(taskManager.getTasksHistory());
     }
 
 

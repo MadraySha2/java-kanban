@@ -1,7 +1,7 @@
-package ru.yandex.kanban.kanban_utils.taskManger;
+package ru.yandex.kanban.managers.taskManger;
 
-import ru.yandex.kanban.kanban_utils.Managers;
-import ru.yandex.kanban.kanban_utils.history.HistoryManager;
+import ru.yandex.kanban.managers.Managers;
+import ru.yandex.kanban.managers.historyManager.HistoryManager;
 import ru.yandex.kanban.model.Epic;
 import ru.yandex.kanban.model.Status;
 import ru.yandex.kanban.model.SubTask;
@@ -11,10 +11,10 @@ import java.util.*;
 
 
 public class InMemoryTaskManager implements TaskManager {
-    private HistoryManager historyManager = Managers.getHistoryManager();
-    private HashMap<Integer, Epic> epicsMap = new HashMap<>();
-    private HashMap<Integer, SubTask> subTaskMap = new HashMap<>();
-    private HashMap<Integer, Task> tasksMap = new HashMap<>();
+    private final HistoryManager historyManager = Managers.getHistoryManager();
+    private final HashMap<Integer, Epic> epicsMap = new HashMap<>();
+    private final HashMap<Integer, SubTask> subTaskMap = new HashMap<>();
+    private final HashMap<Integer, Task> tasksMap = new HashMap<>();
     private int id = 0;
 
     @Override
@@ -160,6 +160,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int id) {
         tasksMap.remove(id);
+        historyManager.remove(id);
     }
 
     @Override
@@ -168,8 +169,10 @@ public class InMemoryTaskManager implements TaskManager {
         ArrayList<Integer> stId = epic.getSubTasksIdList();
         for (Integer integer : stId) {
             subTaskMap.remove(integer);
+            historyManager.remove(integer);
         }
         epicsMap.remove(id);
+        historyManager.remove(id);
     }
 
     @Override
@@ -179,17 +182,24 @@ public class InMemoryTaskManager implements TaskManager {
             epic.deleteSubTask(id);
             subTaskMap.remove(id);
             updateEpicStatus(epic);
+            historyManager.remove(id);
         }
 
     }
 
     @Override
     public void deleteAllTasks() {
+        for (int id : tasksMap.keySet()) {
+            historyManager.remove(id);
+        }
         tasksMap.clear();
     }
 
     @Override
     public void deleteAllSubTasks() {
+        for (int id : subTaskMap.keySet()) {
+            historyManager.remove(id);
+        }
         subTaskMap.clear();
         for (Integer epicID : epicsMap.keySet()) {
             epicsMap.get(epicID).setSubTasksIdList(new ArrayList<>());
@@ -199,6 +209,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllEpics() {
+        for (int id : epicsMap.keySet()) {
+            historyManager.remove(id);
+        }
         epicsMap.clear();
         deleteAllSubTasks();
     }

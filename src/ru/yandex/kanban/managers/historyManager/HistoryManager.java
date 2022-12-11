@@ -1,4 +1,4 @@
-package ru.yandex.kanban.kanban_utils.history;
+package ru.yandex.kanban.managers.historyManager;
 
 import ru.yandex.kanban.model.Task;
 
@@ -8,6 +8,7 @@ public interface HistoryManager {
 
 
     void addTaskInHistory(Task task);
+    void remove(int id);
 
     List<Task> getHistory();
 }
