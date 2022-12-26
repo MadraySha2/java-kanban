@@ -5,15 +5,16 @@ public class Task {
     private String description;
     private Integer id;
     private Status status;
+    private Type type;
 
-    public Task(String newTitle, String newDescription, Status newStatus) {
+    public Task(String newTitle, String newDescription, Status newStatus, Type newType) {
         this.title = newTitle;
         this.description = newDescription;
         this.status = newStatus;
+        this.type = newType;
     }
 
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -41,6 +42,13 @@ public class Task {
         return status;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
 
     public void setNewStatus(Status newStatus) {
         this.status = newStatus;
