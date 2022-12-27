@@ -15,7 +15,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected final HashMap<Integer, Epic> epicsMap = new HashMap<>();
     protected final HashMap<Integer, SubTask> subTaskMap = new HashMap<>();
     protected final HashMap<Integer, Task> tasksMap = new HashMap<>();
-    private int id = 0;
+    protected int id = 0;
 
 
     @Override

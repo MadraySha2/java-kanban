@@ -5,13 +5,13 @@ public class Task {
     private String description;
     private Integer id;
     private Status status;
-    private Type type;
+    private final Type TYPE;
 
     public Task(String newTitle, String newDescription, Status newStatus, Type newType) {
         this.title = newTitle;
         this.description = newDescription;
         this.status = newStatus;
-        this.type = newType;
+        this.TYPE = newType;
     }
 
     public Integer getId() {
@@ -38,17 +38,13 @@ public class Task {
         this.description = description;
     }
 
-    public Status getStatus() {
-        return status;
+    public Status getStatus() {return status;
     }
 
     public Type getType() {
-        return type;
+        return TYPE;
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
 
     public void setNewStatus(Status newStatus) {
         this.status = newStatus;

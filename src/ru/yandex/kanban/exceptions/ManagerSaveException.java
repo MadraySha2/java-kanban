@@ -1,4 +1,4 @@
-package ru.yandex.kanban.model;
+package ru.yandex.kanban.exceptions;
 
 import java.io.IOException;
 

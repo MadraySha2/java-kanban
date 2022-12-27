@@ -1,0 +1,11 @@
+id,type,title,status,description,EpicForST
+1,class ru.yandex.kanban.model.Task,TaskHis6,NEW,Task6 description
+2,class ru.yandex.kanban.model.Task,TaskHis7,NEW,Task7 description
+3,class ru.yandex.kanban.model.Task,TaskHis8,NEW,Task8 description
+4,class ru.yandex.kanban.model.Epic,EpicHis10,NEW,Epic10 description
+5,class ru.yandex.kanban.model.Epic,EpicHis11,NEW,Epic11 description
+6,class ru.yandex.kanban.model.SubTask,SubTask10 - 1,NEW,SubTask10-1 description,4
+7,class ru.yandex.kanban.model.SubTask,SubTask10 - 2,NEW,SubTask11-2 description,4
+
+
+1, 3, 6, 4, 

@@ -1,7 +1,6 @@
 package ru.yandex.kanban.main;
 
 import ru.yandex.kanban.managers.Managers;
-import ru.yandex.kanban.managers.historyManager.FileBackedTasksManager;
 import ru.yandex.kanban.managers.taskManger.TaskManager;
 import ru.yandex.kanban.model.*;
 
