@@ -5,13 +5,12 @@ public class Task {
     private String description;
     private Integer id;
     private Status status;
-    private final Type TYPE;
+    private static final Type TYPE = TASK;
 
-    public Task(String newTitle, String newDescription, Status newStatus, Type newType) {
+    public Task(String newTitle, String newDescription, Status newStatus) {
         this.title = newTitle;
         this.description = newDescription;
         this.status = newStatus;
-        this.TYPE = newType;
     }
 
     public Integer getId() {
