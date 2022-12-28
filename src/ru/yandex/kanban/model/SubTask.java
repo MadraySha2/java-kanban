@@ -4,7 +4,7 @@ public class SubTask extends Task {
     private Integer epicId;
     private static final Type TYPE = TYPE.SUBTASK
 
-    public SubTask(String newTitle, String newDescription, Status newStatus, int newEpicId,Type newType) {
+    public SubTask(String newTitle, String newDescription, Status newStatus, int newEpicId) {
         super(newTitle, newDescription, newStatus, newType);
         this.epicId = newEpicId;
     }
