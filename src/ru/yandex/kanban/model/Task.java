@@ -5,7 +5,7 @@ public class Task {
     private String description;
     private Integer id;
     private Status status;
-    private static final Type TYPE = TASK;
+    private static final Type TYPE = Type.TASK;
 
     public Task(String newTitle, String newDescription, Status newStatus) {
         this.title = newTitle;
