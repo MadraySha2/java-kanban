@@ -1,13 +1,19 @@
 package ru.yandex.kanban.managers;
 
+import ru.yandex.kanban.httpServer.HttpTaskManager;
 import ru.yandex.kanban.managers.taskManger.FileBackedTasksManager;
 import ru.yandex.kanban.managers.historyManager.HistoryManager;
 import ru.yandex.kanban.managers.historyManager.InMemoryHistoryManager;
 import ru.yandex.kanban.managers.taskManger.TaskManager;
 import ru.yandex.kanban.managers.taskManger.InMemoryTaskManager;
 
+import java.io.IOException;
+
 public class Managers {
-    static public TaskManager getDefault() {
+    static public TaskManager getDefault(String URL) throws IOException, InterruptedException {
+        return new HttpTaskManager(URL);
+    }
+    static public TaskManager getInMemoryTaskManger() {
         return new InMemoryTaskManager();
     }
 

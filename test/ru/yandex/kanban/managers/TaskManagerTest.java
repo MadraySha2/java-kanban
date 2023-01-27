@@ -9,6 +9,7 @@ import ru.yandex.kanban.model.Status;
 import ru.yandex.kanban.model.SubTask;
 import ru.yandex.kanban.model.Task;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public abstract class TaskManagerTest<T extends TaskManager> {
-    public abstract T createManager();
+    public abstract T createManager() ;
 
 
     T testTaskManager;

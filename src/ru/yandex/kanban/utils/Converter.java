@@ -1,5 +1,6 @@
 package ru.yandex.kanban.utils;
 
+import com.google.gson.Gson;
 import ru.yandex.kanban.model.*;
 
 import java.time.LocalDateTime;
@@ -90,6 +91,7 @@ public class Converter {
         }
 
     }
+
 
     static private Status parseStatus(String statusString) {
         try {
