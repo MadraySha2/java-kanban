@@ -1,7 +1,6 @@
 package ru.yandex.kanban.managers.taskManger;
 
 import ru.yandex.kanban.exceptions.ManagerSaveException;
-import ru.yandex.kanban.managers.Managers;
 import ru.yandex.kanban.managers.historyManager.HistoryManager;
 import ru.yandex.kanban.model.*;
 
@@ -11,40 +10,27 @@ import java.util.List;
 import static ru.yandex.kanban.utils.Converter.convert;
 
 
-public class FileBackedTasksManager extends InMemoryTaskManager {
-    private final String path;
+public  class FileBackedTasksManager extends InMemoryTaskManager {
+    private String path;
+    private File file;
+
 
     public FileBackedTasksManager(String path) {
         this.path = path;
-        this.loadFromFile(new File(path));
+        this.file = new File(path);
+        this.load();
+
+    }
+    protected FileBackedTasksManager () {
 
     }
 
     public static void main(String[] args) {
-        System.out.println("CОХРАНЕНИЕ_______________________saveFile1 - empty");
-        Long duration = 90L;
-        Long duration1 = 120L;
-        FileBackedTasksManager fileBackedTasksManager = Managers.getFileBackedTasksManager("java-kanban/src/ru/yandex/kanban/resources/saveFile1.csv");
-        Epic epic1 = new Epic("Epic1", "Epic1 description", Status.NEW);
-        fileBackedTasksManager.addNewEpic(epic1);
 
-        SubTask subTask1_1 = new SubTask("SubTask1 - 1", "SubTask1-1 description", Status.NEW, epic1.getId(), duration);
-        SubTask subTask1_2 = new SubTask("SubTask1 - 2", "SubTask1-2 description", Status.NEW, epic1.getId(), duration1);
-
-        fileBackedTasksManager.addSubTask(subTask1_1);
-        fileBackedTasksManager.addSubTask(subTask1_2);
-
-
-        System.out.println("ВОСТАНОВЛЕНИЕ__________________from saveFile1");
-        FileBackedTasksManager fl1 = Managers.getFileBackedTasksManager("java-kanban/src/ru/yandex/kanban/resources/saveFile1.csv");
-        System.out.println(fl1.getAllTasks());
-        System.out.println(fl1.getAllEpics());
-        System.out.println(fl1.getAllSubTasks());
-        System.out.println(fl1.getTasksHistory());
 
     }
 
-    private void save() {
+    protected void save() {
         HistoryManager historyManager = super.getHistoryManager();
         try (FileWriter writer = new FileWriter(this.path, false)) {
             writer.write("id,type,title,status,description, startTime, duration EpicForST" + "\n");
@@ -65,7 +51,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    private void loadFromFile(File file) {
+    protected void load() {
         try (Reader reader = new FileReader(file)) {
             List<Integer> history;
             BufferedReader br = new LineNumberReader(reader);
@@ -212,4 +198,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         super.deleteAllEpics();
         save();
     }
+
+
 }

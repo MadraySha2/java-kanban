@@ -24,9 +24,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InFileTaskManagerTest extends TaskManagerTest<TaskManager> {
-    final static String path = "java-kanban/src/ru/yandex/kanban/resources/testSave1.csv";
+    final static String path = "src/ru/yandex/kanban/resources/testSave1.csv";
     final static File file = new File(path);
     public Long duration = 15L;
+
+    protected InFileTaskManagerTest() throws IOException {
+    }
 
     @Override
     public FileBackedTasksManager createManager() {

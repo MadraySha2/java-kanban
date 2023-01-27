@@ -109,7 +109,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-    public void updateEpicTimeVariables(Epic epic) {
+    private void updateEpicTimeVariables(Epic epic) {
         TreeSet<SubTask> subTasks = new TreeSet<>(timeComparator);
         subTasks.addAll(getAllEpicsSubsList(epic.getId()));
         long duration = 0L;

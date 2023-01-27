@@ -17,12 +17,6 @@ public interface TaskManager {
 
     void addSubTask(SubTask subTask);
 
-
-
-
-    void updateEpicTimeVariables(Epic epic);
-
-
     void updateTask(Task updTask);
 
     void updateSubTask(SubTask updSubTask);
