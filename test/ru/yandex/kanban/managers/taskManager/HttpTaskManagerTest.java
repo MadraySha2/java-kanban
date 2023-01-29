@@ -1,4 +1,4 @@
-package ru.yandex.kanban.managers.httpManager;
+package ru.yandex.kanban.managers.taskManager;
 
 import org.junit.jupiter.api.Test;
 import ru.yandex.kanban.managers.Managers;
