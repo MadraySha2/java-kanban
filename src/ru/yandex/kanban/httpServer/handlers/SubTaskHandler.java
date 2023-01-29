@@ -52,7 +52,7 @@ public class SubTaskHandler implements HttpHandler {
             return;
         }
         int id = getTaskId(exchange).get();
-        if (taskManager.getSubTaskMap().containsKey(id)) {
+        if (taskManager.getSubTaskById(id) !=null) {
             response = gson.toJson(taskManager.getSubTaskById(id));
         } else {
             writeResponse(exchange, "Задач с таким id не найдено!", 404);
@@ -70,13 +70,16 @@ public class SubTaskHandler implements HttpHandler {
                 writeResponse(exchange, "Задача не должна быть пустой!", 400);
                 return;
             }
-            if (subTask.getId() != null && taskManager.getSubTaskMap().containsKey(subTask.getId())) {
+            if (subTask.getId() == null) {
+                taskManager.addSubTask(subTask);
+                writeResponse(exchange, "Задача успешно добавлена!", 201);
+
+            }
+            if (taskManager.getSubTaskById(subTask.getId()) != null) {
                 taskManager.updateSubTask(subTask);
                 writeResponse(exchange, "Сабтаск обновлен!", 218);
-                return;
             }
-            taskManager.addSubTask(subTask);
-            writeResponse(exchange, "Задача успешно добавлена!", 201);
+
 
         } catch (JsonSyntaxException e) {
             writeResponse(exchange, "Получен некорректный JSON", 400);
@@ -93,7 +96,7 @@ public class SubTaskHandler implements HttpHandler {
             return;
         }
         int id = getTaskId(exchange).get();
-        if (!taskManager.getSubTaskMap().containsKey(id)) {
+        if (taskManager.getSubTaskById(id) == null) {
             writeResponse(exchange, "Сабов с таким id не найдено!", 404);
             return;
         }

@@ -21,8 +21,8 @@ public class TaskHandler implements HttpHandler {
     private final Gson gson = new Gson();
     String response;
 
-    public TaskHandler(TaskManager newTaskManager) {
-        this.taskManager = newTaskManager;
+    public TaskHandler(TaskManager taskManager) {
+        this.taskManager = taskManager;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class TaskHandler implements HttpHandler {
             return;
         }
         int id = getTaskId(exchange).get();
-        if (taskManager.getTasksMap().containsKey(id)) {
+        if (taskManager.getTaskById(id) != null) {
             response = gson.toJson(taskManager.getTaskById(id));
         } else {
             writeResponse(exchange, "Задач с таким id не найдено!", 404);
@@ -72,7 +72,7 @@ public class TaskHandler implements HttpHandler {
                 writeResponse(exchange, "Задача не должна быть пустой!", 400);
                 return;
             }
-            if (task.getId() != null && taskManager.getTasksMap().containsKey(task.getId())) {
+            if (task.getId() != null && taskManager.getAllTasks().contains(task)) {
                 taskManager.updateTask(task);
                 writeResponse(exchange, "Такая задача существует и была обновлена", 218);
                 return;
@@ -95,7 +95,7 @@ public class TaskHandler implements HttpHandler {
             return;
         }
         int id = getTaskId(exchange).get();
-        if (!taskManager.getTasksMap().containsKey(id)) {
+        if (taskManager.getTaskById(id) == null) {
             writeResponse(exchange, "Задач с таким id не найдено!", 404);
             return;
         }

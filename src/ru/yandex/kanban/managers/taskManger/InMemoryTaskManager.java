@@ -279,21 +279,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public HashMap<Integer, Epic> getEpicsMap() {
-        return epicsMap;
-    }
-
-    @Override
-    public HashMap<Integer, SubTask> getSubTaskMap() {
-        return subTaskMap;
-    }
-
-    @Override
-    public HashMap<Integer, Task> getTasksMap() {
-        return tasksMap;
-    }
-
-    @Override
     public HistoryManager getHistoryManager() {
         return historyManager;
     }

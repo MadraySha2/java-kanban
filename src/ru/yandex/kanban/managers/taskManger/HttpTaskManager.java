@@ -1,8 +1,9 @@
-package ru.yandex.kanban.httpServer;
+package ru.yandex.kanban.managers.taskManger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import ru.yandex.kanban.httpServer.KVTaskClient;
 import ru.yandex.kanban.managers.taskManger.FileBackedTasksManager;
 import ru.yandex.kanban.model.Epic;
 import ru.yandex.kanban.model.SubTask;
@@ -21,39 +22,42 @@ public class HttpTaskManager extends FileBackedTasksManager {
 
     @Override
     protected void save() {
-        kv.put("t", json.toJson(super.getAllTasks()));
-        kv.put("e", json.toJson(super.getAllEpics()));
-        kv.put("s", json.toJson(super.getAllSubTasks()));
-        kv.put("h", json.toJson(super.getTasksHistory()));
+        kv.put("task", json.toJson(super.getAllTasks()));
+        kv.put("epic", json.toJson(super.getAllEpics()));
+        kv.put("subtask", json.toJson(super.getAllSubTasks()));
+        kv.put("history", json.toJson(super.getTasksHistory()));
     }
 
     @Override
     protected void load() {
-        JsonArray loadedArray = kv.load("t");
+        JsonArray loadedArray = kv.load("task");
         if (loadedArray == null) {
             return;
         }
         for (JsonElement jsonTask : loadedArray) {
             Task loadedTask = json.fromJson(jsonTask, Task.class);
-            super.addNewTask(loadedTask);
+            int id = loadedTask.getId();
+            super.tasksMap.put(id, loadedTask);
         }
-        loadedArray = kv.load("e");
+        loadedArray = kv.load("epic");
         if (loadedArray == null) {
             return;
         }
         for (JsonElement jsonTask : loadedArray) {
             Epic loadedEpic = json.fromJson(jsonTask, Epic.class);
-            super.addNewEpic(loadedEpic);
+            int id = loadedEpic.getId();
+            super.epicsMap.put(id, loadedEpic);
         }
-        loadedArray = kv.load("s");
+        loadedArray = kv.load("subtask");
         if (loadedArray == null) {
             return;
         }
         for (JsonElement jsonTask : loadedArray) {
-            SubTask loadedTask = json.fromJson(jsonTask, SubTask.class);
-            super.addSubTask(loadedTask);
+            SubTask loadedSubTask = json.fromJson(jsonTask, SubTask.class);
+            int id = loadedSubTask.getId();
+            super.subTaskMap.put(id, loadedSubTask);
         }
-        loadedArray = kv.load("h");
+        loadedArray = kv.load("history");
         if (loadedArray == null) {
             return;
         }

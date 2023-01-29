@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public abstract class TaskManagerTest<T extends TaskManager> {
-    public abstract T createManager() ;
+    public abstract T createManager() throws IOException, InterruptedException;
 
 
     T testTaskManager;
@@ -25,11 +25,12 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
 
     @BeforeEach
-    void beforeEach() {
+    void beforeEach() throws IOException, InterruptedException {
         testTaskManager = createManager();
         testTaskManager.deleteAllTasks();
         testTaskManager.deleteAllSubTasks();
         testTaskManager.deleteAllEpics();
+
 
     }
 
@@ -44,10 +45,10 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         Task testTask = testTaskManager.getTaskById(taskId);
 
         assertEquals("Task1", testTask.getTitle(), "Задание не совпадает!");
-        assertEquals(1, testTaskManager.getTasksMap().size(), "Кол-во заданий неправильное!");
+        assertEquals(1, testTaskManager.getAllTasks().size(), "Кол-во заданий неправильное!");
         testTaskManager.addNewTask(null);
         testTask = testTaskManager.getTaskById(taskId + 1);
-        assertEquals(1, testTaskManager.getTasksMap().size(), "Кол-во заданий неправильное!");
+        assertEquals(1, testTaskManager.getAllTasks().size(), "Кол-во заданий неправильное!");
         assertNull(testTask, "Добавился таск равный null!");
     }
 
@@ -56,17 +57,17 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         Epic epic1 = new Epic("Epic1", "Epic1 description", Status.NEW);
         testTaskManager.addNewEpic(epic1);
 
-        assertNotNull(testTaskManager.getEpicsMap().values(), "Задание не сохранилось!");
+        assertNotNull(testTaskManager.getAllEpics(), "Задание не сохранилось!");
 
         final int taskId = epic1.getId();
         Task testTask = testTaskManager.getEpicById(taskId);
 
         assertEquals("Epic1", testTask.getTitle(), "Задание не совпадает!");
-        assertEquals(1, testTaskManager.getEpicsMap().size(), "Кол-во заданий неправильное!");
+        assertEquals(1, testTaskManager.getAllEpics().size(), "Кол-во заданий неправильное!");
 
         testTaskManager.addNewEpic(null);
         testTask = testTaskManager.getEpicById(taskId + 1);
-        assertEquals(1, testTaskManager.getEpicsMap().size(), "Кол-во заданий неправильное!");
+        assertEquals(1, testTaskManager.getAllEpics().size(), "Кол-во заданий неправильное!");
         assertNull(testTask, "Добавился эпик равный null!");
     }
 
@@ -86,12 +87,12 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         SubTask testTask = testTaskManager.getSubTaskById(taskId);
 
         assertEquals("SubTask1 - 1", testTask.getTitle(), "Задание не совпадает!");
-        assertEquals(1, testTaskManager.getSubTaskMap().size(), "Кол-во заданий неправильное!");
+        assertEquals(1, testTaskManager.getAllSubTasks().size(), "Кол-во заданий неправильное!");
         assertEquals(subTask1_1.getId(), epic1.getSubTaskIDs().get(0), "Задание не сохранилось в эпик!");
 
         testTaskManager.addSubTask(null);
         testTask = testTaskManager.getSubTaskById(taskId + 1);
-        assertEquals(1, testTaskManager.getSubTaskMap().size(), "Кол-во заданий неправильное!");
+        assertEquals(1, testTaskManager.getAllSubTasks().size(), "Кол-во заданий неправильное!");
         assertNull(testTask, "Добавился сабтаск равный null!");
         SubTask subTask1_2 = new SubTask("SubTask1 - 1",
                 "SubTask1-1 description", Status.NEW, epicId, 10L);
@@ -248,7 +249,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         testTaskManager.addNewTask(task2);
         testTaskManager.deleteAllTasks();
 
-        assertEquals(0, testTaskManager.getTasksMap().size(), "Не все задания удалились!");
+        assertEquals(0, testTaskManager.getAllTasks().size(), "Не все задания удалились!");
     }
 
     @Test
@@ -267,7 +268,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         testTaskManager.deleteAllSubTasks();
 
 
-        assertEquals(0, testTaskManager.getSubTaskMap().size(), "Не все сабтаски удалены!");
+        assertEquals(0, testTaskManager.getAllSubTasks().size(), "Не все сабтаски удалены!");
         assertEquals(0, epic1.getSubTasksIdList().size(), "Не все сабтаски удалены из эпика!");
         assertFalse(testTaskManager.getTasksHistory().contains(subTask1_1), "Сабтаск1 не удалился из истории!");
         assertFalse(testTaskManager.getTasksHistory().contains(subTask1_2), "Сабтаск2 не удалился из истории!");
@@ -281,7 +282,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         testTaskManager.addNewEpic(epic2);
         testTaskManager.deleteAllEpics();
 
-        assertEquals(0, testTaskManager.getEpicsMap().size(), "Не все эпики удалились!");
+        assertEquals(0, testTaskManager.getAllEpics().size(), "Не все эпики удалились!");
     }
 
     @Test
@@ -314,7 +315,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         testTaskManager.addNewTask(task2);
 
 
-        assertEquals(1, testTaskManager.getTasksMap().size());
+        assertEquals(1, testTaskManager.getAllTasks().size());
 
         Epic epic1 = new Epic("Epic1", "Epic1 description", Status.NEW);
         Epic epic2 = new Epic("Epic1", "Epic1 description", Status.NEW);
@@ -323,7 +324,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         testTaskManager.addNewEpic(epic1);
         testTaskManager.addNewEpic(epic2);
 
-        assertEquals(2, testTaskManager.getEpicsMap().size());
+        assertEquals(2, testTaskManager.getAllEpics().size());
         SubTask subTask1_1 = new SubTask("SubTask1 - 1",
                 "SubTask1-1 description", Status.NEW, epic2.getId(), 20L);
         subTask1_1.setStartTime(task1.getStartTime());
@@ -336,7 +337,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         testTaskManager.addSubTask(subTask1_2);
 
         assertEquals(1, epic2.getSubTasksIdList().size(), "Сабтаска с некорректным временем добавилась!");
-        assertEquals(1, testTaskManager.getSubTaskMap().size(), "Сабтаска с некорректным временем добавилась!");
+        assertEquals(1, testTaskManager.getAllSubTasks().size(), "Сабтаска с некорректным временем добавилась!");
 
     }
 }

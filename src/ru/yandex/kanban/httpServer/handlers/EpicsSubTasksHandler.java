@@ -39,7 +39,7 @@ public class EpicsSubTasksHandler implements HttpHandler {
             return;
         }
         int id = getTaskId(exchange).get();
-        if (taskManager.getEpicsMap().containsKey(id)) {
+        if (taskManager.getEpicById(id) != null) {
             response = gson.toJson(taskManager.getAllEpicsSubsList(id));
         } else {
             writeResponse(exchange, "Задач с таким id не найдено!", 404);

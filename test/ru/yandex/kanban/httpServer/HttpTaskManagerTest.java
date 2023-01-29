@@ -1,10 +1,11 @@
 package ru.yandex.kanban.httpServer;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.yandex.kanban.managers.Managers;
+import ru.yandex.kanban.managers.TaskManagerTest;
+import ru.yandex.kanban.managers.taskManger.HttpTaskManager;
 import ru.yandex.kanban.managers.taskManger.TaskManager;
 import ru.yandex.kanban.model.Epic;
 import ru.yandex.kanban.model.Status;
@@ -15,8 +16,9 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class HttpTaskManagerTest {
+class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
     private static final KVServer kvServer;
+
 
     static {
         try {
@@ -26,14 +28,19 @@ class HttpTaskManagerTest {
         }
     }
 
-    protected  static  TaskManager tm;
+    public HttpTaskManager createManager() throws IOException, InterruptedException {
+        return Managers.getDefault("http://localhost:8078");
+    }
 
+
+    HttpTaskManagerTest() throws IOException, InterruptedException {
+
+    }
 
 
     @BeforeAll
-    static void beforeAll() throws IOException, InterruptedException {
-            kvServer.start();
-        tm = Managers.getDefault("http://localhost:8078");
+    static void beforeAll() {
+        kvServer.start();
     }
 
     @AfterAll
@@ -42,10 +49,10 @@ class HttpTaskManagerTest {
 
     }
 
-
+    private final TaskManager tm = createManager();
 
     @Test
-    void addNewTasksAndHistory()  {
+    void addNewTasksAndHistory() throws IOException, InterruptedException {
 
         Task task1 = new Task("Task1", "Task1 description", Status.NEW);
         Epic epic1 = new Epic("Epic1", "Epic1 description", Status.NEW);
@@ -65,17 +72,21 @@ class HttpTaskManagerTest {
                 "Cохранен неверный таск");
         assertEquals("Task1", tm.getTasksHistory().get(0).getTitle());
 
+        HttpTaskManager mt = new HttpTaskManager("http://localhost:8078");
+        System.out.println(mt.getAllEpics());
+
     }
 
-    @Test
-    void deleteAllTasksAndGetNullTasks() throws IOException, InterruptedException {
 
+    @Test
+    void deleteAllTasksAndGetNullTasks() {
         tm.deleteAllTasks();
         tm.deleteAllEpics();
         tm.deleteAllSubTasks();
         assertEquals(0, tm.getAllTasks().size(), "Таски не удалились");
         assertEquals(0, tm.getAllEpics().size(), "Эпики не удалились");
         assertEquals(0, tm.getAllSubTasks().size(), "Сабы не удалились");
+
 
     }
 }

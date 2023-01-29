@@ -53,7 +53,7 @@ public class EpicHandler implements HttpHandler {
             return;
         }
         int id = getTaskId(exchange).get();
-        if (taskManager.getEpicsMap().containsKey(id)) {
+        if (taskManager.getEpicById(id) != null) {
             response = gson.toJson(taskManager.getEpicById(id));
         } else {
             writeResponse(exchange, "Задач с таким id не найдено!", 404);
@@ -71,7 +71,7 @@ public class EpicHandler implements HttpHandler {
                 writeResponse(exchange, "Задача не должна быть пустой!", 400);
                 return;
             }
-            if (epic.getId() != null && taskManager.getEpicsMap().containsKey(epic.getId())) {
+            if (epic.getId() != null && taskManager.getAllEpics().contains(epic)) {
                 if (!epic.getSubTasksIdList().isEmpty()) {
                     for (SubTask s : taskManager.getAllEpicsSubsList(epic.getId())) {
                         taskManager.updateSubTask(s);
@@ -91,19 +91,19 @@ public class EpicHandler implements HttpHandler {
     private void deleteEpic(HttpExchange exchange) throws IOException {
         if (exchange.getRequestURI().getQuery() == null) {
             taskManager.deleteAllEpics();
-            writeResponse(exchange, "Эпики успешно удалены!", 200);
+            writeResponse(exchange, "Задачи успешно удалены!", 200);
             return;
         }
-        if (getTaskId(exchange).isEmpty()) {
+        if (!getTaskId(exchange).isPresent()) {
             return;
         }
         int id = getTaskId(exchange).get();
-        if (!taskManager.getEpicsMap().containsKey(id)) {
-            writeResponse(exchange, "Эпиков с таким id не найдено!", 404);
+        if (taskManager.getEpicById(id) == null) {
+            writeResponse(exchange, "Задач с таким id не найдено!", 404);
             return;
         }
         taskManager.deleteEpic(id);
-        writeResponse(exchange, "Эпик успешно удален!", 200);
+        writeResponse(exchange, "Задача успешно удалена!", 200);
     }
 
     private Optional<Integer> getTaskId(HttpExchange exchange) {

@@ -6,7 +6,6 @@ import ru.yandex.kanban.model.SubTask;
 import ru.yandex.kanban.model.Task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public interface TaskManager {
@@ -18,6 +17,7 @@ public interface TaskManager {
     void addSubTask(SubTask subTask);
 
     void updateTask(Task updTask);
+
 
     void updateSubTask(SubTask updSubTask);
 
@@ -49,11 +49,7 @@ public interface TaskManager {
 
     List<Task> getTasksHistory();
 
-    HashMap<Integer, Epic> getEpicsMap();
-
-    HashMap<Integer, SubTask> getSubTaskMap();
-
-    HashMap<Integer, Task> getTasksMap();
     List<Task> getPrioritizedTasks();
+
     HistoryManager getHistoryManager();
 }
