@@ -1,7 +1,5 @@
-package ru.yandex.kanban.httpServer;
+package ru.yandex.kanban.managers.httpManager;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.yandex.kanban.managers.Managers;
 import ru.yandex.kanban.managers.TaskManagerTest;
@@ -16,40 +14,25 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class HttpTaskManagerTest<T extends TaskManagerTest<HttpTaskManager>> {
-    private static final KVServer kvServer;
+class HttpTaskManagerTest extends TaskManagerTest<HttpTaskManager> {
 
 
     static {
+        TaskManagerTest.kvServer.start();
+    }
+
+
+    @Override
+    public HttpTaskManager createManager() {
         try {
-            kvServer = new KVServer();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            return Managers.getDefault("http://localhost:8078");
+        } catch (IOException | InterruptedException e) {
+            System.out.println("1111");
+            return null;
         }
     }
 
-    public HttpTaskManager createManager() throws IOException, InterruptedException {
-        return Managers.getDefault("http://localhost:8078");
-    }
-
-
-    HttpTaskManagerTest() throws IOException, InterruptedException {
-
-    }
-
-
-    @BeforeAll
-    static void beforeAll() {
-        kvServer.start();
-    }
-
-    @AfterAll
-    public static void afterAll() {
-        kvServer.stop();
-
-    }
-
-    private final TaskManager tm = createManager();
+    final TaskManager tm = createManager();
 
     @Test
     void addNewTasksAndHistory() throws IOException, InterruptedException {

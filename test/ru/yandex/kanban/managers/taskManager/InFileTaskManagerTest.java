@@ -28,6 +28,8 @@ class InFileTaskManagerTest extends TaskManagerTest<TaskManager> {
     final static File file = new File(path);
     public Long duration = 15L;
 
+    protected InFileTaskManagerTest() throws IOException, InterruptedException {
+    }
 
 
     @Override

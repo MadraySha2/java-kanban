@@ -1,8 +1,9 @@
 package ru.yandex.kanban.managers;
-// Сорри, не до конца понимаю с пакетами и их распределением :(
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.yandex.kanban.httpServer.KVServer;
 import ru.yandex.kanban.managers.taskManger.TaskManager;
 import ru.yandex.kanban.model.Epic;
 import ru.yandex.kanban.model.Status;
@@ -17,16 +18,36 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public abstract class TaskManagerTest<T extends TaskManager> {
-    public abstract T createManager() throws IOException, InterruptedException;
+    protected TaskManagerTest() {
+    }
+
+    protected abstract T createManager();
 
 
-    T testTaskManager;
+    T testTaskManager = createManager();
+
+
     public static Long duration = 15L;
+    public static KVServer kvServer;
+
+    static {
+        try {
+            kvServer = new KVServer();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @BeforeAll
+    static void beforeAll() {
+
+    }
 
 
     @BeforeEach
     void beforeEach() throws IOException, InterruptedException {
-        testTaskManager = createManager();
+
         testTaskManager.deleteAllTasks();
         testTaskManager.deleteAllSubTasks();
         testTaskManager.deleteAllEpics();
@@ -285,10 +306,6 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         assertEquals(0, testTaskManager.getAllEpics().size(), "Не все эпики удалились!");
     }
 
-    @Test
-    void getHistoryManager() {
-        assertEquals(Managers.getHistoryManager().getClass(), testTaskManager.getHistoryManager().getClass());
-    }
 
     @Test
     void setTasksToPrioritizedList() {

@@ -6,6 +6,7 @@ import ru.yandex.kanban.managers.taskManger.InMemoryTaskManager;
 
 class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     protected InMemoryTaskManagerTest() {
+
     }
 
     @Override

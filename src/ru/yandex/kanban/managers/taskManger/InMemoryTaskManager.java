@@ -278,8 +278,8 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    @Override
-    public HistoryManager getHistoryManager() {
+
+    protected HistoryManager getHistoryManager() {
         return historyManager;
     }
 
